@@ -1,5 +1,11 @@
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.PrintWriter;
+import java.net.ServerSocket;
+import java.net.Socket;
 import java.util.Scanner;
 
 public class MarsRover {
@@ -62,30 +68,17 @@ public class MarsRover {
 	public static void main(String[] args){
 		try {
 			Scanner sc = new Scanner(new File("input.in"));
-			sc.nextLine();
+			int height = sc.nextInt();
+			int width = sc.nextInt();
 			while(sc.hasNext()){
-				Rover rv = new Rover(0,0, Direction.N);
-				int x = sc.nextInt();
-				int y = sc.nextInt();
-				String dir = sc.next();
-				if(dir.equals("N"))
-					rv = new Rover(x, y, Direction.N);
-				else if(dir.equals("E"))
-					rv = new Rover(x, y, Direction.E);
-				else if(dir.equals("S"))
-					rv = new Rover(x, y, Direction.S);
-				else if(dir.equals("W"))
-					rv = new Rover(x, y, Direction.W);
+				
+				RoverPosition rvPos = new RoverPosition();
+				rvPos.loadValues(sc);
+				Rover rv = new Rover(rvPos, new Grid(height, width, rvPos));
+				
 				
 				String moves = sc.next();
-				for(int i=0; i<moves.length(); i++){
-					if(moves.charAt(i) == 'L')
-						rv.turn(Rotation.L);
-					else if(moves.charAt(i) == 'R')
-						rv.turn(Rotation.R);
-					else
-						rv.move();
-				}
+				rv.receiveMoves(moves);
 				
 				rv.printPosition();
 			}
@@ -93,50 +86,106 @@ public class MarsRover {
 			e.printStackTrace();
 		}
 		
+		remote();
+	}
+	
+	private static void remote(){
+		try{
+			final int portNumber = 5072;
+			System.out.println("Creating server socket on port " + portNumber);
+			ServerSocket serverSocket = new ServerSocket(portNumber);
+			while (true) {
+				Socket socket = serverSocket.accept();
+				OutputStream os = socket.getOutputStream();
+				PrintWriter pw = new PrintWriter(os, true);
+				Scanner sc = new Scanner(new InputStreamReader(socket.getInputStream()));
+				
+				pw.println("Grid size:");
+				int height = sc.nextInt();
+				int width = sc.nextInt();
+				
+				pw.println("Rover position:");
+				RoverPosition rvPos = new RoverPosition();
+				rvPos.loadValues(sc);
+				Rover rv = new Rover(rvPos, new Grid(height, width, rvPos));
+				rv.setOutput(os);
+				
+				pw.println("Instructions:");
+				String moves = sc.next();
+				rv.receiveMoves(moves);
+
+				
+				pw.println("" + rvPos.getX() + " " + rvPos.getY() + " " + rvPos.getDir().toString());
+	
+				pw.close();
+				socket.close();
+	
+				//System.out.println("Just said hello to:" + str);
+			}
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
 	}
 	
 	private static class Rover {
-		private int x;
-		private int y;
-		private Direction dir;
+		private RoverPosition rvPos;
+		private Grid rvGrid;
+		private PrintWriter pw;
 		
-		Rover(int x, int y, Direction dir){
-			this.x = x;
-			this.y = y;
-			this.dir = dir;
+		Rover(RoverPosition rvPos, Grid rvGrid){
+			this.rvPos = rvPos;
+			this.rvGrid = rvGrid;
+			this.pw = new PrintWriter(System.out, true);
 		}
 		
 		void turn(Rotation r){
 			switch(r) {
 			case L:
-				dir = dir.previous();
+				rvPos.setDir(rvPos.getDir().previous());
 				break;
 			case R:
-				dir = dir.next();
+				rvPos.setDir(rvPos.getDir().next());
 				break;
 			}
 			return;
 		}
 		
 		void move(){
-			switch(dir) {
+			switch(rvPos.getDir()) {
 			case N:
-				y += 1;
+				rvPos.setY(rvPos.getY()+1);
 				break;
 			case E:
-				x += 1;
+				rvPos.setX(rvPos.getX()+1);
 				break;
 			case S:
-				y -= 1;
+				rvPos.setY(rvPos.getY()-1);
 				break;
 			case W:
-				x -= 1;
+				rvPos.setX(rvPos.getX()-1);
 				break;
 			}
 		}
 		
+		void receiveMoves(String moves){
+			for(int i=0; i<moves.length(); i++){
+				pw.println(rvGrid);
+				if(moves.charAt(i) == 'L')
+					this.turn(Rotation.L);
+				else if(moves.charAt(i) == 'R')
+					this.turn(Rotation.R);
+				else
+					this.move();
+			}
+			pw.println(rvGrid);
+		}
+		
 		void printPosition(){
-			System.out.println("" + x + y + dir);
+			System.out.println("" + rvPos.getX() + rvPos.getY() + rvPos.getDir());
+		}
+		
+		void setOutput(OutputStream os){
+			this.pw	= new PrintWriter(os, true);
 		}
 	}
 }
