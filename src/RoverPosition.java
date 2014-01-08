@@ -1,22 +1,23 @@
-import java.util.Scanner;
 
 public class RoverPosition {
 	private int x;
 	private int y;
 	private MarsRover.Direction dir;
 	
-	public void loadValues(Scanner sc){
-		this.x = sc.nextInt();
-		this.y = sc.nextInt();
-		String strDir = sc.next();
-		if(strDir.equals("N"))
-			this.dir = MarsRover.Direction.N;
-		else if(strDir.equals("E"))
-			this.dir = MarsRover.Direction.E;
-		else if(strDir.equals("S"))
-			this.dir = MarsRover.Direction.S;
-		else if(strDir.equals("W"))
-			this.dir = MarsRover.Direction.W;
+	public RoverPosition(int x, int y, MarsRover.Direction dir){
+		this.x = x;
+		this.y = y;
+		this.dir = dir;
+	}
+	
+	public boolean collides(RoverPosition that){
+		if(this.x == that.x && this.y == that.y)
+			return true;
+		return false;
+	}
+	
+	public RoverPosition simulateMove(){
+		return new RoverPosition(x + dir.getX(), y + dir.getY(), dir);
 	}
 
 	public int getX() {

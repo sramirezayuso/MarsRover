@@ -1,16 +1,19 @@
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.PrintWriter;
-import java.net.ServerSocket;
-import java.net.Socket;
-import java.util.Scanner;
 
 public class MarsRover {
+	
+	private RoverPosition rvPos;
+	private Terrain rvTerrain;
+	
 	public enum Direction {
-	    N, E, S, W;
+	    N(0, 1), E(1,0), S(0,-1), W(-1,0);
+	    
+	    private int x;
+	    private int y;
+	    
+	    private Direction(int x, int y){
+	    	this.x = x;
+	    	this.y = y;
+	    }
 	    
 	    public Direction next(){  
             int order = this.ordinal(); 
@@ -46,146 +49,62 @@ public class MarsRover {
             return result;  
         }
 	    
-	    public String toString(){
-	    	switch(this.ordinal()){
-	    	case 0:
-	    		return "N";
-	    	case 1: 
-	    		return "E";
-	    	case 2:
-	    		return "S";
-	    	case 3:
-	    		return "W";
-	    	}
-	    	return "";
+	    public int getX(){
+	    	return x;
+	    };
+	    
+	    public int getY(){
+	    	return y;
 	    }
+	    
+	}
+	
+	public void addTerrain(Terrain terrain){
+		this.rvTerrain = terrain;
 	}
 	
 	public enum Rotation {
 		L, R
 	}
 	
-	public static void main(String[] args){
-		try {
-			Scanner sc = new Scanner(new File("input.in"));
-			int height = sc.nextInt();
-			int width = sc.nextInt();
-			while(sc.hasNext()){
-				
-				RoverPosition rvPos = new RoverPosition();
-				rvPos.loadValues(sc);
-				Rover rv = new Rover(rvPos, new Grid(height, width, rvPos));
-				
-				
-				String moves = sc.next();
-				rv.receiveMoves(moves);
-				
-				rv.printPosition();
-			}
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
-		
-		remote();
+	public MarsRover(RoverPosition rvPos){
+		this.rvPos = rvPos;
 	}
 	
-	private static void remote(){
-		try{
-			final int portNumber = 5072;
-			System.out.println("Creating server socket on port " + portNumber);
-			ServerSocket serverSocket = new ServerSocket(portNumber);
-			while (true) {
-				Socket socket = serverSocket.accept();
-				OutputStream os = socket.getOutputStream();
-				PrintWriter pw = new PrintWriter(os, true);
-				Scanner sc = new Scanner(new InputStreamReader(socket.getInputStream()));
-				
-				pw.println("Grid size:");
-				int height = sc.nextInt();
-				int width = sc.nextInt();
-				
-				pw.println("Rover position:");
-				RoverPosition rvPos = new RoverPosition();
-				rvPos.loadValues(sc);
-				Rover rv = new Rover(rvPos, new Grid(height, width, rvPos));
-				rv.setOutput(os);
-				
-				pw.println("Instructions:");
-				String moves = sc.next();
-				rv.receiveMoves(moves);
-
-				
-				pw.println("" + rvPos.getX() + " " + rvPos.getY() + " " + rvPos.getDir().toString());
+	public void turn(Rotation r){
+		switch(r) {
+		case L:
+			rvPos.setDir(rvPos.getDir().previous());
+			break;
+		case R:
+			rvPos.setDir(rvPos.getDir().next());
+			break;
+		}
+		return;
+	}
 	
-				pw.close();
-				socket.close();
-	
-				//System.out.println("Just said hello to:" + str);
-			}
-		} catch (Exception e) {
-			System.out.println(e.toString());
+	public void receiveMoves(String moves){
+		for(int i=0; i<moves.length(); i++){
+			if(moves.charAt(i) == 'L')
+				this.turn(Rotation.L);
+			else if(moves.charAt(i) == 'R')
+				this.turn(Rotation.R);
+			else
+				rvTerrain.move(this);
 		}
 	}
 	
-	private static class Rover {
-		private RoverPosition rvPos;
-		private Grid rvGrid;
-		private PrintWriter pw;
-		
-		Rover(RoverPosition rvPos, Grid rvGrid){
-			this.rvPos = rvPos;
-			this.rvGrid = rvGrid;
-			this.pw = new PrintWriter(System.out, true);
-		}
-		
-		void turn(Rotation r){
-			switch(r) {
-			case L:
-				rvPos.setDir(rvPos.getDir().previous());
-				break;
-			case R:
-				rvPos.setDir(rvPos.getDir().next());
-				break;
-			}
-			return;
-		}
-		
-		void move(){
-			switch(rvPos.getDir()) {
-			case N:
-				rvPos.setY(rvPos.getY()+1);
-				break;
-			case E:
-				rvPos.setX(rvPos.getX()+1);
-				break;
-			case S:
-				rvPos.setY(rvPos.getY()-1);
-				break;
-			case W:
-				rvPos.setX(rvPos.getX()-1);
-				break;
-			}
-		}
-		
-		void receiveMoves(String moves){
-			for(int i=0; i<moves.length(); i++){
-				pw.println(rvGrid);
-				if(moves.charAt(i) == 'L')
-					this.turn(Rotation.L);
-				else if(moves.charAt(i) == 'R')
-					this.turn(Rotation.R);
-				else
-					this.move();
-			}
-			pw.println(rvGrid);
-		}
-		
-		void printPosition(){
-			System.out.println("" + rvPos.getX() + rvPos.getY() + rvPos.getDir());
-		}
-		
-		void setOutput(OutputStream os){
-			this.pw	= new PrintWriter(os, true);
-		}
+	public String getHumanReadablePosition(){
+		return "" + rvPos.getX() + rvPos.getY() + rvPos.getDir();
 	}
+	
+	public RoverPosition getPos(){
+		return this.rvPos;
+	}
+	
+	public RoverPosition setPos(RoverPosition pos){
+		this.rvPos = pos;
+		return this.rvPos;
+	}
+	
 }
