@@ -1,3 +1,4 @@
+package Main;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -15,6 +16,7 @@ public class Terrain {
 		boolean collision = checkCollision(rv.getPos());
 		if(!outOfBounds && !collision){
 			rovers.add(rv);
+			rv.addTerrain(this);
 			return true;
 		}
 		return false;

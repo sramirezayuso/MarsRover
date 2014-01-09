@@ -1,3 +1,4 @@
+package Main;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -7,8 +8,7 @@ import java.util.Scanner;
 
 public class WorkerThread implements Runnable {
 	
-	protected Socket clientSocket;
-	protected String text;
+	private String text;
     private InputStream is;
     private OutputStream os;
     PrintWriter pw;
@@ -17,8 +17,7 @@ public class WorkerThread implements Runnable {
         this.is = is;
     }
 	
-	public WorkerThread(Socket clientSocket, String text) {
-		this.clientSocket = clientSocket;
+	public WorkerThread(String text) {
 		this.text = text;		
 	}
 
@@ -29,42 +28,33 @@ public class WorkerThread implements Runnable {
     }
 	
 	public void run()  {
-		try {
-			Scanner sc = new Scanner(is);
-			pw = new PrintWriter(os, true);		  
-			boolean done = false;
-			
-			while (!done) {
-				pw.println("Grid size:");
-				int height = sc.nextInt();
-				int width = sc.nextInt();
-				
-				pw.println("Rover position:");
-				RoverPosition rvPos = loadValues(sc);
-				MarsRover rv = new MarsRover(rvPos);
-				Terrain tr = new Terrain(new Coordinates(width-1, height-1));
-				if(!tr.addRover(rv))
-					return;
-				rv.addTerrain(tr);
-				
-				pw.println("Instructions:");
-				String moves = sc.next();
-				rv.receiveMoves(moves);
-			
-				pw.println(rv.getPos());
-
-			}
+		Scanner sc = new Scanner(is);
+		pw = new PrintWriter(os, true);
+		
+		pw.println("Grid size:");
+		int height = sc.nextInt();
+		int width = sc.nextInt();
+		
+		pw.println("Rover position:");
+		RoverPosition rvPos = loadValues(sc);
+		MarsRover rv = new MarsRover(rvPos);
+		Terrain tr = new Terrain(new Coordinates(width-1, height-1));
+		if(!tr.addRover(rv))
+			return;
+		rv.addTerrain(tr);
+		
+		pw.println("Instructions:");
+		String moves = sc.next();
+		rv.receiveMoves(moves);
+	
+		pw.println(rv.getPos());
+		
+		try{
 			is.close();
-			os.close();			
-		}catch(IOException ex) {
-			ex.printStackTrace();
-		} finally {
+			os.close();
 			pw.close();
-			try{
-				clientSocket.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 	

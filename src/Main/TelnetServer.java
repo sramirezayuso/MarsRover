@@ -1,3 +1,4 @@
+package Main;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -29,6 +30,7 @@ public class TelnetServer implements Runnable{
 		}
 		
 		this.threadPool.shutdown();
+		stop();
 	}
 	
     private void stop() {

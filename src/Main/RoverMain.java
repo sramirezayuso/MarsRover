@@ -1,3 +1,4 @@
+package Main;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.InputStreamReader;
@@ -27,7 +28,6 @@ public class RoverMain {
 				Terrain tr = new Terrain(new Coordinates(width-1, height-1));
 				if(!tr.addRover(rv))
 					return false;
-				rv.addTerrain(tr);
 							
 				String moves = sc.next();
 				rv.receiveMoves(moves);
@@ -61,7 +61,6 @@ public class RoverMain {
 				Terrain tr = new Terrain(new Coordinates(width-1, height-1));
 				if(!tr.addRover(rv))
 					return false;
-				rv.addTerrain(tr);
 				
 				pw.println("Instructions:");
 				String moves = sc.next();

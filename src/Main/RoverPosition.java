@@ -1,3 +1,4 @@
+package Main;
 
 public class RoverPosition {
 	private Coordinates coords;
