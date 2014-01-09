@@ -7,12 +7,10 @@ public class MarsRover {
 	public enum Direction {
 	    N(0, 1), E(1,0), S(0,-1), W(-1,0);
 	    
-	    private int x;
-	    private int y;
+	    private Coordinates coords;
 	    
 	    private Direction(int x, int y){
-	    	this.x = x;
-	    	this.y = y;
+	    	this.coords = new Coordinates(x, y);
 	    }
 	    
 	    public Direction next(){  
@@ -49,12 +47,8 @@ public class MarsRover {
             return result;  
         }
 	    
-	    public int getX(){
-	    	return x;
-	    };
-	    
-	    public int getY(){
-	    	return y;
+	    public Coordinates getCoords(){
+	    	return coords;
 	    }
 	    
 	}
@@ -95,7 +89,7 @@ public class MarsRover {
 	}
 	
 	public String getHumanReadablePosition(){
-		return "" + rvPos.getX() + rvPos.getY() + rvPos.getDir();
+		return "" + rvPos.toString();
 	}
 	
 	public RoverPosition getPos(){

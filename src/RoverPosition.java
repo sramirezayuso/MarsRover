@@ -1,39 +1,30 @@
 
 public class RoverPosition {
-	private int x;
-	private int y;
+	private Coordinates coords;
 	private MarsRover.Direction dir;
 	
-	public RoverPosition(int x, int y, MarsRover.Direction dir){
-		this.x = x;
-		this.y = y;
+	/*public RoverPosition(int x, int y, MarsRover.Direction dir){
+		this.coords = new Coordinates(x, y);
+		this.dir = dir;
+	}*/
+	
+	public RoverPosition(Coordinates coords, MarsRover.Direction dir){
+		this.coords = coords;
 		this.dir = dir;
 	}
 	
 	public boolean collides(RoverPosition that){
-		if(this.x == that.x && this.y == that.y)
+		if(this.coords.equals(that.coords))
 			return true;
 		return false;
 	}
 	
-	public RoverPosition simulateMove(){
-		return new RoverPosition(x + dir.getX(), y + dir.getY(), dir);
+	public RoverPosition projectMove(){
+		return new RoverPosition(coords.add(dir.getCoords()), dir);
 	}
 
-	public int getX() {
-		return x;
-	}
-
-	public void setX(int x) {
-		this.x = x;
-	}
-
-	public int getY() {
-		return y;
-	}
-
-	public void setY(int y) {
-		this.y = y;
+	public Coordinates getCoords(){
+		return coords;
 	}
 
 	public MarsRover.Direction getDir() {
@@ -42,5 +33,9 @@ public class RoverPosition {
 
 	public void setDir(MarsRover.Direction dir) {
 		this.dir = dir;
+	}
+	
+	public String toString() {
+		return coords.toString() + " " + dir.toString();
 	}
 }

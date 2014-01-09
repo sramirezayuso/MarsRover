@@ -2,15 +2,11 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class Terrain {
-	//private String[][] grid;
-	private int height;
-	private int width;
+	private Coordinates bounds;
 	private List<MarsRover> rovers;
 	
-	public Terrain(int height, int width){
-		this.height = height;
-		this.width = width;
-		//this.grid = new String[width][height];
+	public Terrain(Coordinates bounds){
+		this.bounds = bounds;
 		this.rovers = new LinkedList<MarsRover>();
 	}
 	
@@ -25,7 +21,7 @@ public class Terrain {
 	}
 	
 	private boolean checkOutOfBounds(RoverPosition pos){
-		if(pos.getX() >= width || pos.getX() < 0 || pos.getY() >= height || pos.getY() < 0)
+		if(!pos.getCoords().isWithinBoundsOf(bounds))
 			return true;
 		return false;
 	}
@@ -40,7 +36,7 @@ public class Terrain {
 	
 	public boolean move(MarsRover rv){
 		RoverPosition oldPos = rv.getPos();
-		RoverPosition newPos = oldPos.simulateMove();
+		RoverPosition newPos = oldPos.projectMove();
 		boolean outOfBounds = checkOutOfBounds(newPos);
 		boolean collision = checkCollision(newPos);
 		if(!outOfBounds && !collision){

@@ -10,7 +10,8 @@ import java.util.Scanner;
 
 public class RoverMain {
 	public static void main(String[] args){
-		telnet();
+		TelnetServer server = new TelnetServer();
+		server.run();
 	}
 	
 	private static boolean processFile(){
@@ -23,7 +24,7 @@ public class RoverMain {
 				RoverPosition rvPos = loadValues(sc);
 				
 				MarsRover rv = new MarsRover(rvPos);
-				Terrain tr = new Terrain(height, width);
+				Terrain tr = new Terrain(new Coordinates(width-1, height-1));
 				if(!tr.addRover(rv))
 					return false;
 				rv.addTerrain(tr);
@@ -57,7 +58,7 @@ public class RoverMain {
 				pw.println("Rover position:");
 				RoverPosition rvPos = loadValues(sc);
 				MarsRover rv = new MarsRover(rvPos);
-				Terrain tr = new Terrain(height, width);
+				Terrain tr = new Terrain(new Coordinates(width-1, height-1));
 				if(!tr.addRover(rv))
 					return false;
 				rv.addTerrain(tr);
@@ -66,7 +67,7 @@ public class RoverMain {
 				String moves = sc.next();
 				rv.receiveMoves(moves);
 			
-				pw.println("" + rv.getPos().getX() + " " + rv.getPos().getY() + " " + rv.getPos().getDir());
+				pw.println(rv.getPos());
 				pw.close();
 				socket.close();
 
@@ -92,7 +93,7 @@ public class RoverMain {
 		else if(strDir.equals("W"))
 			dir = MarsRover.Direction.W;
 		
-		return new RoverPosition(x, y, dir);
+		return new RoverPosition(new Coordinates(x, y), dir);
 	}
 
 }
