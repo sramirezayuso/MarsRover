@@ -3,12 +3,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
-import java.net.Socket;
 import java.util.Scanner;
+
+import Main.MarsRover.Rotation;
 
 public class WorkerThread implements Runnable {
 	
-	private String text;
     private InputStream is;
     private OutputStream os;
     PrintWriter pw;
@@ -16,15 +16,10 @@ public class WorkerThread implements Runnable {
     public void setInputStream(InputStream is) {
         this.is = is;
     }
-	
-	public WorkerThread(String text) {
-		this.text = text;		
-	}
 
     public WorkerThread(InputStream is, OutputStream os, String text) {
         this.is = is;
         this.os = os;
-        this.text = text;
     }
 	
 	public void run()  {
@@ -45,16 +40,31 @@ public class WorkerThread implements Runnable {
 		
 		pw.println("Instructions:");
 		String moves = sc.next();
-		rv.receiveMoves(moves);
+		processMoves(rv, moves);
 	
 		pw.println(rv.getPos());
+		pw.close();
 		
-		try{
-			is.close();
-			os.close();
-			pw.close();
+		try {
+			if(is != null)
+				is.close();
+			if(os != null)
+				os.close();
 		} catch (IOException e) {
 			e.printStackTrace();
+		}
+			
+			
+	}
+	
+	private static void processMoves(MarsRover rv, String moves){
+		for(int i=0; i<moves.length(); i++){
+			if(moves.charAt(i) == 'L')
+				rv.turn(Rotation.L);
+			else if(moves.charAt(i) == 'R')
+				rv.turn(Rotation.R);
+			else
+				rv.move();
 		}
 	}
 	

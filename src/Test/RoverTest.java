@@ -6,6 +6,7 @@ import org.junit.Test;
 
 import Main.Coordinates;
 import Main.MarsRover;
+import Main.RoverMain;
 import Main.RoverPosition;
 import Main.Terrain;
 
@@ -17,7 +18,7 @@ public class RoverTest extends TestCase {
 		MarsRover rv = new MarsRover(new RoverPosition(new Coordinates(1, 2), MarsRover.Direction.N) );
 		Terrain tr = new Terrain(new Coordinates(4, 4));
 		tr.addRover(rv);
-		rv.receiveMoves("LLRLRRL");
+		RoverMain.processMoves(rv, "LLRLRRL");
 		assertEquals(MarsRover.Direction.W, rv.getPos().getDir());
 	}
 	
@@ -27,7 +28,7 @@ public class RoverTest extends TestCase {
 		MarsRover rv = new MarsRover(new RoverPosition(new Coordinates(1, 2), MarsRover.Direction.N) );
 		Terrain tr = new Terrain(new Coordinates(4, 4));
 		tr.addRover(rv);
-		rv.receiveMoves("MM");
+		RoverMain.processMoves(rv, "MM");
 		assertEquals(new Coordinates(1,4), rv.getPos().getCoords());
 	}
 	
@@ -37,7 +38,7 @@ public class RoverTest extends TestCase {
 		MarsRover rv = new MarsRover(new RoverPosition(new Coordinates(1, 2), MarsRover.Direction.N) );
 		Terrain tr = new Terrain(new Coordinates(4, 4));
 		tr.addRover(rv);
-		rv.receiveMoves("LMLMLMLMM");
+		RoverMain.processMoves(rv, "LMLMLMLMM");
 		assertEquals(new Coordinates(1,3), rv.getPos().getCoords());
 		assertEquals(MarsRover.Direction.N, rv.getPos().getDir());
 	}
@@ -48,7 +49,7 @@ public class RoverTest extends TestCase {
 		MarsRover rv = new MarsRover(new RoverPosition(new Coordinates(1, 2), MarsRover.Direction.N) );
 		Terrain tr = new Terrain(new Coordinates(4, 4));
 		tr.addRover(rv);
-		rv.receiveMoves("MMMMMMMMMMM");
+		RoverMain.processMoves(rv, "MMMMMMMMMMM");
 		assertEquals(new Coordinates(1,4), rv.getPos().getCoords());
 	}
 	
@@ -60,7 +61,7 @@ public class RoverTest extends TestCase {
 		Terrain tr = new Terrain(new Coordinates(4, 4));
 		tr.addRover(rv);
 		tr.addRover(rv2);
-		rv.receiveMoves("LMLMLMLMM");
-		assertEquals(new Coordinates(1,4), rv.getPos().getCoords());
+		RoverMain.processMoves(rv, "LMLMLMLMMMM");
+		assertEquals(new Coordinates(1,2), rv.getPos().getCoords());
 	}
 }

@@ -78,15 +78,8 @@ public class MarsRover {
 		return;
 	}
 	
-	public void receiveMoves(String moves){
-		for(int i=0; i<moves.length(); i++){
-			if(moves.charAt(i) == 'L')
-				this.turn(Rotation.L);
-			else if(moves.charAt(i) == 'R')
-				this.turn(Rotation.R);
-			else
-				rvTerrain.move(this);
-		}
+	public boolean move(){
+		return rvTerrain.move(this);
 	}
 	
 	public String getHumanReadablePosition(){
