@@ -14,13 +14,13 @@ public class RoverPosition {
 		this.dir = dir;
 	}
 	
-	public boolean collides(RoverPosition that){
+	boolean collides(RoverPosition that){
 		if(this.coords.equals(that.coords))
 			return true;
 		return false;
 	}
 	
-	public RoverPosition projectMove(){
+	RoverPosition projectMove(){
 		return new RoverPosition(coords.add(dir.getCoords()), dir);
 	}
 
@@ -32,7 +32,7 @@ public class RoverPosition {
 		return dir;
 	}
 
-	public void setDir(MarsRover.Direction dir) {
+	void setDir(MarsRover.Direction dir) {
 		this.dir = dir;
 	}
 	

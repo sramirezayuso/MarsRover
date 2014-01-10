@@ -7,17 +7,17 @@ import java.util.Scanner;
 
 import Main.MarsRover.Rotation;
 
-public class WorkerThread implements Runnable {
+class WorkerThread implements Runnable {
 	
     private InputStream is;
     private OutputStream os;
     PrintWriter pw;
 
-    public void setInputStream(InputStream is) {
+    void setInputStream(InputStream is) {
         this.is = is;
     }
 
-    public WorkerThread(InputStream is, OutputStream os, String text) {
+    WorkerThread(InputStream is, OutputStream os, String text) {
         this.is = is;
         this.os = os;
     }
@@ -33,7 +33,7 @@ public class WorkerThread implements Runnable {
 		pw.println("Rover position:");
 		RoverPosition rvPos = loadValues(sc);
 		MarsRover rv = new MarsRover(rvPos);
-		Terrain tr = new Terrain(new Coordinates(width-1, height-1));
+		Terrain tr = new Terrain(new Boundaries(width-1, height-1));
 		if(!tr.addRover(rv))
 			return;
 		rv.addTerrain(tr);

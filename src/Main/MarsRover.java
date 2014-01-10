@@ -14,7 +14,7 @@ public class MarsRover {
 	    	this.coords = new Coordinates(x, y);
 	    }
 	    
-	    public Direction next(){  
+	    Direction next(){  
             int order = this.ordinal(); 
             int newSpot = 0;  
             Direction result = this;  
@@ -31,7 +31,7 @@ public class MarsRover {
             return result;  
         } 
 	    
-	    public Direction previous(){  
+	    Direction previous(){  
             int order = this.ordinal(); 
             int newSpot = 0;  
             Direction result = this;  
@@ -48,7 +48,7 @@ public class MarsRover {
             return result;  
         }
 	    
-	    public Coordinates getCoords(){
+	    Coordinates getCoords(){
 	    	return coords;
 	    }
 	    
@@ -58,7 +58,7 @@ public class MarsRover {
 		this.rvTerrain = terrain;
 	}
 	
-	public enum Rotation {
+	enum Rotation {
 		L, R
 	}
 	

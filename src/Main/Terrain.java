@@ -3,10 +3,10 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class Terrain {
-	private Coordinates bounds;
+	private Boundaries bounds;
 	private List<MarsRover> rovers;
 	
-	public Terrain(Coordinates bounds){
+	public Terrain(Boundaries bounds){
 		this.bounds = bounds;
 		this.rovers = new LinkedList<MarsRover>();
 	}
@@ -36,7 +36,7 @@ public class Terrain {
 		return false;
 	}
 	
-	public boolean move(MarsRover rv){
+	boolean move(MarsRover rv){
 		RoverPosition oldPos = rv.getPos();
 		RoverPosition newPos = oldPos.projectMove();
 		boolean outOfBounds = checkOutOfBounds(newPos);

@@ -28,7 +28,7 @@ public class RoverMain {
 				RoverPosition rvPos = loadValues(sc);
 				
 				MarsRover rv = new MarsRover(rvPos);
-				Terrain tr = new Terrain(new Coordinates(width-1, height-1));
+				Terrain tr = new Terrain(new Boundaries(width-1, height-1));
 				if(!tr.addRover(rv))
 					return false;
 							

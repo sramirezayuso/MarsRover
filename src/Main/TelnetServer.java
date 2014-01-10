@@ -5,7 +5,7 @@ import java.net.Socket;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class TelnetServer implements Runnable{
+class TelnetServer implements Runnable{
 	private int port = 5072;
 	private	ServerSocket sckt = null;
 	private boolean isStopped = false;
