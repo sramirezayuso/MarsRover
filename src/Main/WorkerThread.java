@@ -31,9 +31,9 @@ class WorkerThread implements Runnable {
 		int width = sc.nextInt();
 		
 		pw.println("Rover position:");
-		RoverPosition rvPos = loadValues(sc);
+		RoverPosition rvPos = loadCartesianValues(sc);
 		MarsRover rv = new MarsRover(rvPos);
-		Terrain tr = new Terrain(new Boundaries(width-1, height-1));
+		Terrain tr = new Terrain(new CartesianBounds(width-1, height-1));
 		if(!tr.addRover(rv))
 			return;
 		rv.addTerrain(tr);
@@ -68,21 +68,21 @@ class WorkerThread implements Runnable {
 		}
 	}
 	
-	private RoverPosition loadValues(Scanner sc){
+	private RoverPosition loadCartesianValues(Scanner sc){
 		
 		int x = sc.nextInt();
 		int y = sc.nextInt();
 		String strDir = sc.next();
-		MarsRover.Direction dir = MarsRover.Direction.N;
+		CartesianDirection dir = CartesianDirection.N;
 		if(strDir.equals("N"))
-			dir = MarsRover.Direction.N;
+			dir = CartesianDirection.N;
 		else if(strDir.equals("E"))
-			dir = MarsRover.Direction.E;
+			dir = CartesianDirection.E;
 		else if(strDir.equals("S"))
-			dir = MarsRover.Direction.S;
+			dir = CartesianDirection.S;
 		else if(strDir.equals("W"))
-			dir = MarsRover.Direction.W;
+			dir = CartesianDirection.W;
 		
-		return new RoverPosition(new Coordinates(x, y), dir);
+		return new RoverPosition(new CartesianCoordinates(x, y), dir);
 	}
 }

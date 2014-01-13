@@ -3,10 +3,10 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class Terrain {
-	private Boundaries bounds;
+	private Bounds bounds;
 	private List<MarsRover> rovers;
 	
-	public Terrain(Boundaries bounds){
+	public Terrain(Bounds bounds){
 		this.bounds = bounds;
 		this.rovers = new LinkedList<MarsRover>();
 	}

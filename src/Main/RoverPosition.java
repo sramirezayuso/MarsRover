@@ -2,14 +2,14 @@ package Main;
 
 public class RoverPosition {
 	private Coordinates coords;
-	private MarsRover.Direction dir;
+	private Direction dir;
 	
 	/*public RoverPosition(int x, int y, MarsRover.Direction dir){
 		this.coords = new Coordinates(x, y);
 		this.dir = dir;
 	}*/
 	
-	public RoverPosition(Coordinates coords, MarsRover.Direction dir){
+	public RoverPosition(Coordinates coords, Direction dir){
 		this.coords = coords;
 		this.dir = dir;
 	}
@@ -28,11 +28,11 @@ public class RoverPosition {
 		return coords;
 	}
 
-	public MarsRover.Direction getDir() {
+	public Direction getDir() {
 		return dir;
 	}
 
-	void setDir(MarsRover.Direction dir) {
+	void setDir(Direction dir) {
 		this.dir = dir;
 	}
 	
