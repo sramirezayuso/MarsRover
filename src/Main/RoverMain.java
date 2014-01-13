@@ -1,11 +1,6 @@
 package Main;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.PrintWriter;
-import java.net.ServerSocket;
-import java.net.Socket;
 import java.util.Scanner;
 
 import Main.MarsRover.Rotation;
@@ -51,8 +46,10 @@ public class RoverMain {
 				rv.turn(Rotation.L);
 			else if(moves.charAt(i) == 'R')
 				rv.turn(Rotation.R);
-			else
+			else if(moves.charAt(i) == 'M')
 				rv.move();
+			else
+				rv.shootLasers();
 		}
 	}
 	

@@ -26,6 +26,7 @@ public class Terrain {
 		return rovers.get(coords);
 	}
 	
+	
 	private boolean checkOutOfBounds(RoverPosition pos){
 		if(!pos.getCoords().isWithinBoundsOf(bounds))
 			return true;
@@ -36,6 +37,23 @@ public class Terrain {
 		if(rovers.containsKey(pos.getCoords()))
 			return true;
 		return false;
+	}
+	
+	synchronized Coordinates shootLasers(MarsRover rv){
+		boolean outOfBounds = false;
+		boolean collision = false;
+		RoverPosition newPos = rv.getPos();
+		do {
+			RoverPosition oldPos = newPos;
+			newPos = oldPos.projectMove();
+			outOfBounds = checkOutOfBounds(newPos);
+			collision = checkCollision(newPos);
+		} while(!outOfBounds && !collision);
+		if(collision){
+			rovers.remove(newPos.getCoords());
+			return newPos.getCoords();
+		}
+		return null;
 	}
 	
 	synchronized boolean move(MarsRover rv){

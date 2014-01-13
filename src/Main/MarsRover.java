@@ -47,5 +47,8 @@ public class MarsRover {
 		this.rvPos = pos;
 		return this.rvPos;
 	}
+	public Coordinates shootLasers(){
+		return this.rvTerrain.shootLasers(this);
+	}
 	
 }

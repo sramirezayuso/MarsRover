@@ -7,6 +7,7 @@ import org.junit.Test;
 import Main.CartesianBounds;
 import Main.CartesianCoordinates;
 import Main.CartesianDirection;
+import Main.Coordinates;
 import Main.MarsRover;
 import Main.PolarBounds;
 import Main.PolarCoordinates;
@@ -76,7 +77,33 @@ public class RoverTest extends TestCase {
 		MarsRover rv = new MarsRover(new RoverPosition(new PolarCoordinates(Math.sqrt(Math.pow(1, 2) + Math.pow(2, 2)) , Math.atan2(2, 1)), PolarDirection.N));
 		Terrain tr = new Terrain(new PolarBounds(5));
 		tr.addRover(rv);
-		RoverMain.processMoves(rv, "LMLMLMLMM");
+		RoverMain.processMoves(rv, "LLMLLMLLMLLMM");
 		assertEquals(new PolarCoordinates(3.1622776601683795, 1.2490457723982544), rv.getPos().getCoords());
 	}
+	
+	@Test
+	public void testShotOnTarget(){
+		System.out.println("Test shooting and hitting rover...");
+		MarsRover rv = new MarsRover(new RoverPosition(new CartesianCoordinates(1, 2), CartesianDirection.N) );
+		MarsRover rv2 = new MarsRover(new RoverPosition(new CartesianCoordinates(1, 3), CartesianDirection.N) );
+		Terrain tr = new Terrain(new CartesianBounds(5, 5));
+		tr.addRover(rv);
+		tr.addRover(rv2);
+		RoverMain.processMoves(rv, "LMLMLMLM");
+		Coordinates coords = rv.shootLasers();
+		assertEquals(coords, new CartesianCoordinates(1, 3));
+		assertNull(tr.getRoverAt(new CartesianCoordinates(1, 3)));
+	}
+	
+	@Test
+	public void testMissedShot(){
+		System.out.println("Test shooting and missing...");
+		MarsRover rv = new MarsRover(new RoverPosition(new CartesianCoordinates(1, 2), CartesianDirection.N));
+		Terrain tr = new Terrain(new CartesianBounds(5, 5));
+		tr.addRover(rv);
+		Coordinates coords = rv.shootLasers();
+		assertNull(coords);
+	}
+	
+
 }

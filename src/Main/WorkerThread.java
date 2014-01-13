@@ -100,11 +100,13 @@ class WorkerThread implements Runnable {
 				rv.turn(Rotation.L);
 			else if(moves.charAt(i) == 'R')
 				rv.turn(Rotation.R);
-			else
+			else if(moves.charAt(i) == 'M')
 				if(!rv.move()){
 					pw.println("The mars rover has ran into another rover or the wall!");
 					return;
 				}
+			else if(moves.charAt(i) == 'S')
+				rv.shootLasers();
 		}
 	}
 	
