@@ -48,7 +48,7 @@ public class RoverMain {
 				rv.turn(Rotation.R);
 			else if(moves.charAt(i) == 'M')
 				rv.move();
-			else
+			else if(moves.charAt(i) == 'S')
 				rv.shootLasers();
 		}
 	}
