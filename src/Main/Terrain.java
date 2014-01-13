@@ -1,25 +1,29 @@
 package Main;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Terrain {
 	private Bounds bounds;
-	private List<MarsRover> rovers;
+	private Map<Coordinates, MarsRover> rovers;
 	
 	public Terrain(Bounds bounds){
 		this.bounds = bounds;
-		this.rovers = new LinkedList<MarsRover>();
+		this.rovers = new HashMap<Coordinates, MarsRover>();
 	}
 	
 	public boolean addRover(MarsRover rv){
 		boolean outOfBounds = checkOutOfBounds(rv.getPos());
 		boolean collision = checkCollision(rv.getPos());
 		if(!outOfBounds && !collision){
-			rovers.add(rv);
+			rovers.put(rv.getPos().getCoords(), rv);
 			rv.addTerrain(this);
 			return true;
 		}
 		return false;
+	}
+	
+	public MarsRover getRoverAt(Coordinates coords){
+		return rovers.get(coords);
 	}
 	
 	private boolean checkOutOfBounds(RoverPosition pos){
@@ -29,45 +33,23 @@ public class Terrain {
 	}
 	
 	private boolean checkCollision(RoverPosition pos){
-		for(MarsRover oldRv : rovers){
-			if(oldRv.getPos().collides(pos))
-				return true;
-		}
+		if(rovers.containsKey(pos.getCoords()))
+			return true;
 		return false;
 	}
 	
-	boolean move(MarsRover rv){
+	synchronized boolean move(MarsRover rv){
 		RoverPosition oldPos = rv.getPos();
 		RoverPosition newPos = oldPos.projectMove();
 		boolean outOfBounds = checkOutOfBounds(newPos);
 		boolean collision = checkCollision(newPos);
+		if(collision && rovers.get(newPos.getCoords()).equals(rv))
+			collision = false;
 		if(!outOfBounds && !collision){
 			rv.setPos(newPos);
 			return true;
 		}
 		return false;
 	}
-	
-	/*public String toString(){
-		String str = "";
-		String line = "";
-		for (int i = 0; i < grid.length*2+1; i++) {
-			line += "-";
-		}
-		line += "\n";
-		str += line;
-		for (int i = grid[0].length-1; i >= 0 ; i--) {
-			for (int j = 0; j < grid.length; j++) {
-				str += "|";
-				if(j == rvPos.getX() && i == rvPos.getY())
-					str += rvPos.getDir();
-				else
-					str += " ";
-			}
-			str += "|\n";
-			str += line;
-		}
-		return str;
-	}*/
 	
 }
