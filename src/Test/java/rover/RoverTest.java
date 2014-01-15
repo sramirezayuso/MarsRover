@@ -12,7 +12,7 @@ public class RoverTest extends TestCase {
 		MarsRover rv = new MarsRover(new RoverPosition(new CartesianCoordinates(1, 2), CartesianDirection.N) );
 		Terrain tr = new Terrain(new CartesianBounds(4, 4));
 		tr.addRover(rv);
-		RoverMain.processMoves(rv, "LLRLRRL");
+		RoverTelnetMain.processMoves(rv, "LLRLRRL");
 		assertEquals(CartesianDirection.W, rv.getPos().getDir());
 	}
 	
@@ -22,7 +22,7 @@ public class RoverTest extends TestCase {
 		MarsRover rv = new MarsRover(new RoverPosition(new CartesianCoordinates(1, 2), CartesianDirection.N) );
 		Terrain tr = new Terrain(new CartesianBounds(4, 4));
 		tr.addRover(rv);
-		RoverMain.processMoves(rv, "MM");
+		RoverTelnetMain.processMoves(rv, "MM");
 		assertEquals(new CartesianCoordinates(1,4), rv.getPos().getCoords());
 	}
 	
@@ -32,7 +32,7 @@ public class RoverTest extends TestCase {
 		MarsRover rv = new MarsRover(new RoverPosition(new CartesianCoordinates(1, 2), CartesianDirection.N) );
 		Terrain tr = new Terrain(new CartesianBounds(4, 4));
 		tr.addRover(rv);
-		RoverMain.processMoves(rv, "LMLMLMLMM");
+		RoverTelnetMain.processMoves(rv, "LMLMLMLMM");
 		assertEquals(new CartesianCoordinates(1,3), rv.getPos().getCoords());
 		assertEquals(CartesianDirection.N, rv.getPos().getDir());
 	}
@@ -43,7 +43,7 @@ public class RoverTest extends TestCase {
 		MarsRover rv = new MarsRover(new RoverPosition(new CartesianCoordinates(1, 2), CartesianDirection.N) );
 		Terrain tr = new Terrain(new CartesianBounds(4, 4));
 		tr.addRover(rv);
-		RoverMain.processMoves(rv, "MMMMMMMMMMM");
+		RoverTelnetMain.processMoves(rv, "MMMMMMMMMMM");
 		assertEquals(new CartesianCoordinates(1,4), rv.getPos().getCoords());
 	}
 	
@@ -55,7 +55,7 @@ public class RoverTest extends TestCase {
 		Terrain tr = new Terrain(new CartesianBounds(4, 4));
 		tr.addRover(rv);
 		tr.addRover(rv2);
-		RoverMain.processMoves(rv, "LMLMLMLMMMM");
+		RoverTelnetMain.processMoves(rv, "LMLMLMLMMMM");
 		assertEquals(new CartesianCoordinates(1,2), rv.getPos().getCoords());
 	}
 	
@@ -65,7 +65,7 @@ public class RoverTest extends TestCase {
 		MarsRover rv = new MarsRover(new RoverPosition(new PolarCoordinates(Math.sqrt(Math.pow(1, 2) + Math.pow(2, 2)) , Math.atan2(2, 1)), PolarDirection.N));
 		Terrain tr = new Terrain(new PolarBounds(5));
 		tr.addRover(rv);
-		RoverMain.processMoves(rv, "LLMLLMLLMLLMM");
+		RoverTelnetMain.processMoves(rv, "LLMLLMLLMLLMM");
 		assertEquals(new PolarCoordinates(3.1622776601683795, 1.2490457723982544), rv.getPos().getCoords());
 	}
 	
@@ -77,7 +77,7 @@ public class RoverTest extends TestCase {
 		Terrain tr = new Terrain(new CartesianBounds(5, 5));
 		tr.addRover(rv);
 		tr.addRover(rv2);
-		RoverMain.processMoves(rv, "LMLMLMLM");
+		RoverTelnetMain.processMoves(rv, "LMLMLMLM");
 		Coordinates coords = rv.shootLasers();
 		assertEquals(coords, new CartesianCoordinates(1, 3));
 		assertNull(tr.getRoverAt(new CartesianCoordinates(1, 3)));

@@ -1,17 +1,16 @@
 package rover;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 import rover.MarsRover.Rotation;
 
-
-public class RoverMain {
-	public static void main(String[] args){
-		TelnetServer server = new TelnetServer();
-		server.run();
-	}
+public class RoverFileMain {
 	
+	public static void main(String[] args){
+		processFile();
+	}
 	private static boolean processFile(){
 		Scanner sc = null;
 		try {
@@ -20,15 +19,18 @@ public class RoverMain {
 			int width = sc.nextInt();
 			while(sc.hasNext()){
 				
-				RoverPosition rvPos = loadCartesianValues(sc);
-				
+				RoverPosition rvPos = loadCartesianValues(sc);			
 				MarsRover rv = new MarsRover(rvPos);
+				
+				System.console().writer().println("Rover starts at " + rv.getHumanReadablePosition() + ".");
 				Terrain tr = new Terrain(new CartesianBounds(width-1, height-1));
 				if(!tr.addRover(rv))
 					return false;
 							
 				String moves = sc.next();
 				processMoves(rv, moves);
+				
+				System.console().writer().println("Rover ends at " + rv.getHumanReadablePosition() + ".");
 				
 			}
 		} catch (FileNotFoundException e) {
@@ -38,19 +40,6 @@ public class RoverMain {
 				sc.close();
 		}
 		return true;
-	}
-	
-	public static void processMoves(MarsRover rv, String moves){
-		for(int i=0; i<moves.length(); i++){
-			if(moves.charAt(i) == 'L')
-				rv.turn(Rotation.L);
-			else if(moves.charAt(i) == 'R')
-				rv.turn(Rotation.R);
-			else if(moves.charAt(i) == 'M')
-				rv.move();
-			else if(moves.charAt(i) == 'S')
-				rv.shootLasers();
-		}
 	}
 	
 	private static RoverPosition loadCartesianValues(Scanner sc){
@@ -70,8 +59,23 @@ public class RoverMain {
 		
 		return new RoverPosition(new CartesianCoordinates(x, y), dir);
 	}
-
-
-
+	
+	public static void processMoves(MarsRover rv, String moves){
+		for(int i=0; i<moves.length(); i++){
+			if(moves.charAt(i) == 'L'){
+				rv.turn(Rotation.L);
+				System.console().writer().println("Rover turns left.");
+			}
+			else if(moves.charAt(i) == 'R'){
+				rv.turn(Rotation.R);
+				System.console().writer().println("Rover turns right.");
+			}
+			else if(moves.charAt(i) == 'M'){
+				rv.move();
+				System.console().writer().println("Rover advances to " + rv.getHumanReadablePosition() +".");
+			}
+			else if(moves.charAt(i) == 'S')
+				rv.shootLasers();
+		}
+	}
 }
-
