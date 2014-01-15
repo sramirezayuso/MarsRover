@@ -1,4 +1,4 @@
-package Main;
+package rover;
 
 public class CartesianBounds implements Bounds {
 	private int x;

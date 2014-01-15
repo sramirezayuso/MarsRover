@@ -1,9 +1,9 @@
-package Main;
+package rover;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
-import Main.MarsRover.Rotation;
+import rover.MarsRover.Rotation;
 
 
 public class RoverMain {

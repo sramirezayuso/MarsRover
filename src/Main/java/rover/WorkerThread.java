@@ -1,11 +1,11 @@
-package Main;
+package rover;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.Scanner;
 
-import Main.MarsRover.Rotation;
+import rover.MarsRover.Rotation;
 
 class WorkerThread implements Runnable {
 	

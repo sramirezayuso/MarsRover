@@ -1,4 +1,4 @@
-package Main;
+package rover;
 
 public interface Coordinates {
 	Coordinates add(Coordinates coords);

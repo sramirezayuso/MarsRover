@@ -1,20 +1,8 @@
-package Test;
+package rover;
 
 import junit.framework.TestCase;
 
 import org.junit.Test;
-
-import Main.CartesianBounds;
-import Main.CartesianCoordinates;
-import Main.CartesianDirection;
-import Main.Coordinates;
-import Main.MarsRover;
-import Main.PolarBounds;
-import Main.PolarCoordinates;
-import Main.PolarDirection;
-import Main.RoverMain;
-import Main.RoverPosition;
-import Main.Terrain;
 
 public class RoverTest extends TestCase {
 
