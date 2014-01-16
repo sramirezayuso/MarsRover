@@ -71,11 +71,15 @@ public class PolarCoordinates implements Coordinates{
 		return "(" + r + ", " + thetha +")";
 	}
 	
-	public double getR(){
+	public String machineString(){
+		return "" + r + " " + thetha;
+	}
+	
+	double getR(){
 		return r;
 	}
 	
-	public double getThetha(){
+	double getThetha(){
 		return thetha;
 	}
 

@@ -110,5 +110,21 @@ public class RoverTest extends TestCase {
 		assertNull(coords);
 	}
 	
+	@Test
+	public void testDoubleCollision(){
+		System.out.println("Test moving to rovers and having them collide...");
+		Terrain tr = new Terrain(new CartesianBounds(5, 5));
+		MarsRover rv = new MarsRover(new RoverPosition(new CartesianCoordinates(2, 0), CartesianDirection.N));
+		MarsRover rv2 = new MarsRover(new RoverPosition(new CartesianCoordinates(3, 0), CartesianDirection.N));
+		tr.addRover(rv);
+		tr.addRover(rv2);
+		CommandNotation cn = new LRMSNotation();
+		cn.processMoves(rv, "MMMRM");
+		cn.processMoves(rv2, "MMMLM");
+		assertEquals(new RoverPosition(new CartesianCoordinates(3, 2), CartesianDirection.N), rv2.getPos());
+		
+
+	}
+	
 
 }

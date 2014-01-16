@@ -1,10 +1,13 @@
-package rover;
+package rover.telnet;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.Scanner;
 
+import rover.MarsRover;
+import rover.RoverPosition;
+import rover.Terrain;
 import rover.notation.CardinalNotation;
 import rover.notation.CommandNotation;
 import rover.notation.InputNotation;
@@ -12,19 +15,19 @@ import rover.notation.LRMSNotation;
 import rover.position.cartesian.CartesianBounds;
 import rover.position.cartesian.CartesianCoordinates;
 
-class WorkerThread implements Runnable {
+class ServerWorkerThread implements Runnable {
 	
     private InputStream is;
     private OutputStream os;
     private PrintWriter pw;
-    private static Terrain tr = new Terrain(new CartesianBounds(5, 5));
+    private static Terrain tr = new Terrain(new CartesianBounds(10, 10));
     
 
     void setInputStream(InputStream is) {
         this.is = is;
     }
 
-    WorkerThread(InputStream is, OutputStream os, String text) {
+    ServerWorkerThread(InputStream is, OutputStream os, String text) {
         this.is = is;
         this.os = os;
     }
@@ -78,6 +81,8 @@ class WorkerThread implements Runnable {
 				MarsRover rv = new MarsRover(rvPos);
 				if(!tr.addRover(rv))
 					pw.println("That position is occupied or out of bounds.");
+				else
+					pw.println("Rover add at " + rv.getPos().getCoords().toString());
 			}
 			else if(cmd.equals("2")){
 				pw.println("Enter coordinates of the rover you want to move:");

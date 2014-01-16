@@ -9,5 +9,11 @@ public interface Direction {
 	Direction previous();
 	
 	Coordinates getCoords();
+	
+	@Override
+	public boolean equals(Object o);
+	
+	@Override
+	public int hashCode();
 
 }

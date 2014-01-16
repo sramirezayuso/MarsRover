@@ -1,7 +1,7 @@
-package rover;
+package rover.telnet;
 
 
-public class RoverTelnetMain {
+public class RoverTelnetServerMain {
 	public static void main(String[] args){
 		TelnetServer server = new TelnetServer();
 		server.run();

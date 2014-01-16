@@ -58,4 +58,8 @@ public class CartesianCoordinates implements Coordinates{
 	public String toString(){
 		return "(" + x + ", " + y +")";
 	}
+	
+	public String machineString(){
+		return "" + x + " " + y;
+	}
 }

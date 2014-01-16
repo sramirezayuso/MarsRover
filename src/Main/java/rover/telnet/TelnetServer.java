@@ -1,4 +1,4 @@
-package rover;
+package rover.telnet;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -19,7 +19,7 @@ class TelnetServer implements Runnable{
 			Socket client = null;
 			try {
 				client = this.sckt.accept();
-				this.threadPool.execute(new WorkerThread(client.getInputStream(), client.getOutputStream(), "Thread for each server"));
+				this.threadPool.execute(new ServerWorkerThread(client.getInputStream(), client.getOutputStream(), "Thread for each server"));
 			} catch (IOException e) {
 				throw new RuntimeException("Error while accepting connection");
 			}

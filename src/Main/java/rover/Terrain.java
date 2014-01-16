@@ -42,7 +42,7 @@ public class Terrain {
 		return false;
 	}
 	
-	synchronized Coordinates shootLasers(MarsRover rv){
+	Coordinates shootLasers(MarsRover rv){
 		boolean outOfBounds = false;
 		boolean collision = false;
 		RoverPosition newPos = rv.getPos();
@@ -59,7 +59,7 @@ public class Terrain {
 		return null;
 	}
 	
-	synchronized boolean move(MarsRover rv){
+	boolean move(MarsRover rv){
 		RoverPosition oldPos = rv.getPos();
 		RoverPosition newPos = oldPos.projectMove();
 		boolean outOfBounds = checkOutOfBounds(newPos);
@@ -67,7 +67,9 @@ public class Terrain {
 		if(collision && rovers.get(newPos.getCoords()).equals(rv))
 			collision = false;
 		if(!outOfBounds && !collision){
+			rovers.remove(rv.getPos().getCoords());
 			rv.setPos(newPos);
+			rovers.put(rv.getPos().getCoords(), rv);
 			return true;
 		}
 		return false;

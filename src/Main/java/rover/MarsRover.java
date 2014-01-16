@@ -18,7 +18,7 @@ public class MarsRover {
 		this.rvPos = rvPos;
 	}
 	
-	public void turn(Rotation r){
+	synchronized public void turn(Rotation r){
 		switch(r) {
 		case L:
 			rvPos.setDir(rvPos.getDir().previous());
@@ -48,6 +48,10 @@ public class MarsRover {
 	}
 	public Coordinates shootLasers(){
 		return this.rvTerrain.shootLasers(this);
+	}
+	
+	public Terrain getTerrain(){
+		return this.rvTerrain;
 	}
 	
 }
