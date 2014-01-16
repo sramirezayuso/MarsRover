@@ -19,31 +19,27 @@ public class RoverFileMain {
 		Scanner sc = null;
 		try {
 			sc = new Scanner(new File("input.in"));
-			int height = sc.nextInt();
-			int width = sc.nextInt();
-			while(sc.hasNext()){
-				
-				InputNotation in = new CardinalNotation();
-				RoverPosition rvPos = in.loadValues(sc);			
-				MarsRover rv = new MarsRover(rvPos);
-				
-				System.console().writer().println("Rover starts at " + rv.getHumanReadablePosition() + ".");
-				Terrain tr = new Terrain(new CartesianBounds(width-1, height-1));
-				if(!tr.addRover(rv))
-					return false;
-							
-				String moves = sc.next();
-				CommandNotation cn = new LRMSNotation();
-				cn.processMoves(rv, moves);
-				
-				System.console().writer().println("Rover ends at " + rv.getHumanReadablePosition() + ".");
-				
-			}
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
-		} finally {
-			if(sc != null)
-				sc.close();
+		}
+		int height = sc.nextInt();
+		int width = sc.nextInt();
+		while(sc.hasNext()){
+			
+			InputNotation in = new CardinalNotation();
+			RoverPosition rvPos = in.loadValues(sc);			
+			MarsRover rv = new MarsRover(rvPos);
+			
+			System.out.println("Rover starts at " + rv.getHumanReadablePosition() + ".");
+			Terrain tr = new Terrain(new CartesianBounds(width-1, height-1));
+			if(!tr.addRover(rv))
+				return false;
+						
+			String moves = sc.next();
+			CommandNotation cn = new LRMSNotation();
+			cn.processMoves(rv, moves);
+			
+			System.out.println("Rover ends at " + rv.getHumanReadablePosition() + ".");
 		}
 		return true;
 	}
