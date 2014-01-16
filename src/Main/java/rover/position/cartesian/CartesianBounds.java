@@ -1,4 +1,6 @@
-package rover;
+package rover.position.cartesian;
+
+import rover.position.interfaces.Bounds;
 
 public class CartesianBounds implements Bounds {
 	private int x;

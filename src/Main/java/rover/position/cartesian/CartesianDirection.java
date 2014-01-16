@@ -1,4 +1,7 @@
-package rover;
+package rover.position.cartesian;
+
+import rover.position.interfaces.Direction;
+
 
 
 public enum CartesianDirection implements Direction {

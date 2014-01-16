@@ -1,4 +1,7 @@
-package rover;
+package rover.position.cartesian;
+
+import rover.position.interfaces.Bounds;
+import rover.position.interfaces.Coordinates;
 
 public class CartesianCoordinates implements Coordinates{
 

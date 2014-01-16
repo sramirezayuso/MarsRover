@@ -1,5 +1,8 @@
 package rover;
 
+import rover.position.interfaces.Coordinates;
+import rover.position.interfaces.Direction;
+
 public class RoverPosition {
 	private Coordinates coords;
 	private Direction dir;

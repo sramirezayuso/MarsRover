@@ -1,5 +1,8 @@
 package rover;
 
+import rover.notation.Rotation;
+import rover.position.interfaces.Coordinates;
+
 public class MarsRover {
 	
 	private RoverPosition rvPos;
@@ -9,10 +12,6 @@ public class MarsRover {
 	
 	public void addTerrain(Terrain terrain){
 		this.rvTerrain = terrain;
-	}
-	
-	enum Rotation {
-		L, R
 	}
 	
 	public MarsRover(RoverPosition rvPos){

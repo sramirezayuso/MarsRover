@@ -1,4 +1,5 @@
-package rover;
+package rover.position.interfaces;
+
 
 public interface Coordinates {
 	Coordinates add(Coordinates coords);

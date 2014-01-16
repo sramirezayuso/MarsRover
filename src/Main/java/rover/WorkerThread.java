@@ -5,7 +5,12 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.Scanner;
 
-import rover.MarsRover.Rotation;
+import rover.notation.CardinalNotation;
+import rover.notation.CommandNotation;
+import rover.notation.InputNotation;
+import rover.notation.LRMSNotation;
+import rover.position.cartesian.CartesianBounds;
+import rover.position.cartesian.CartesianCoordinates;
 
 class WorkerThread implements Runnable {
 	
@@ -68,7 +73,8 @@ class WorkerThread implements Runnable {
 			String cmd = sc.next();
 			if(cmd.equals("1")){
 				pw.println("Enter new rover position:");
-				RoverPosition rvPos = loadCartesianValues(sc);
+				InputNotation in = new CardinalNotation();
+				RoverPosition rvPos = in.loadValues(sc);
 				MarsRover rv = new MarsRover(rvPos);
 				if(!tr.addRover(rv))
 					pw.println("That position is occupied or out of bounds.");
@@ -83,7 +89,8 @@ class WorkerThread implements Runnable {
 				else {
 					pw.println("Enter instructions:");
 					String moves = sc.next();
-					processMoves(rv, moves);
+					CommandNotation cn = new LRMSNotation();
+					cn.processMoves(rv, moves);
 					pw.println("Mars rover final location:" + rv.getHumanReadablePosition());
 				}
 			}
@@ -92,39 +99,5 @@ class WorkerThread implements Runnable {
 			else
 				pw.println("Invalid command.");
 		}
-	}
-	
-	private void processMoves(MarsRover rv, String moves){
-		for(int i=0; i<moves.length(); i++){
-			if(moves.charAt(i) == 'L')
-				rv.turn(Rotation.L);
-			else if(moves.charAt(i) == 'R')
-				rv.turn(Rotation.R);
-			else if(moves.charAt(i) == 'M')
-				if(!rv.move()){
-					pw.println("The mars rover has ran into another rover or the wall!");
-					return;
-				}
-			else if(moves.charAt(i) == 'S')
-				rv.shootLasers();
-		}
-	}
-	
-	private RoverPosition loadCartesianValues(Scanner sc){
-		
-		int x = sc.nextInt();
-		int y = sc.nextInt();
-		String strDir = sc.next();
-		CartesianDirection dir = CartesianDirection.N;
-		if(strDir.equals("N"))
-			dir = CartesianDirection.N;
-		else if(strDir.equals("E"))
-			dir = CartesianDirection.E;
-		else if(strDir.equals("S"))
-			dir = CartesianDirection.S;
-		else if(strDir.equals("W"))
-			dir = CartesianDirection.W;
-		
-		return new RoverPosition(new CartesianCoordinates(x, y), dir);
 	}
 }

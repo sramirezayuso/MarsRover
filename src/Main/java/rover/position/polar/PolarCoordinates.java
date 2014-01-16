@@ -1,4 +1,7 @@
-package rover;
+package rover.position.polar;
+
+import rover.position.interfaces.Bounds;
+import rover.position.interfaces.Coordinates;
 
 public class PolarCoordinates implements Coordinates{
 	

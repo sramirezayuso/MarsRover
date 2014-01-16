@@ -1,4 +1,6 @@
-package rover;
+package rover.position.polar;
+
+import rover.position.interfaces.Bounds;
 
 public class PolarBounds implements Bounds{
 	private int r;

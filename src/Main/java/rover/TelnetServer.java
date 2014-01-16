@@ -9,13 +9,9 @@ class TelnetServer implements Runnable{
 	private int port = 5072;
 	private	ServerSocket sckt = null;
 	private boolean isStopped = false;
-	private Thread runningThread = null;
 	private ExecutorService threadPool = Executors.newFixedThreadPool(10);
 	
 	public void run() {
-		synchronized(this) {
-			this.runningThread = Thread.currentThread();
-		}
 		
 		openServerSocket();
 		

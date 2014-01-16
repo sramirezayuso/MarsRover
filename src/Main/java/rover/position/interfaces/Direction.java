@@ -1,4 +1,6 @@
-package rover;
+package rover.position.interfaces;
+
+
 
 public interface Direction {
 	

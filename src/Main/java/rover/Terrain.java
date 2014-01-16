@@ -2,6 +2,9 @@ package rover;
 import java.util.HashMap;
 import java.util.Map;
 
+import rover.position.interfaces.Bounds;
+import rover.position.interfaces.Coordinates;
+
 public class Terrain {
 	private Bounds bounds;
 	private Map<Coordinates, MarsRover> rovers;
