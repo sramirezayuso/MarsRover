@@ -9,7 +9,6 @@ public class MarsRover {
 	private Terrain rvTerrain;
 	
 	
-	
 	public void addTerrain(Terrain terrain){
 		this.rvTerrain = terrain;
 	}
@@ -21,10 +20,10 @@ public class MarsRover {
 	synchronized public void turn(Rotation r){
 		switch(r) {
 		case L:
-			rvPos.setDir(rvPos.getDir().previous());
+			rvPos = new RoverPosition(rvPos.getCoords(), rvPos.getDir().previous());
 			break;
 		case R:
-			rvPos.setDir(rvPos.getDir().next());
+			rvPos = new RoverPosition(rvPos.getCoords(), rvPos.getDir().next());
 			break;
 		}
 		return;
@@ -42,7 +41,7 @@ public class MarsRover {
 		return this.rvPos;
 	}
 	
-	public RoverPosition setPos(RoverPosition pos){
+	synchronized public RoverPosition setPos(RoverPosition pos){
 		this.rvPos = pos;
 		return this.rvPos;
 	}

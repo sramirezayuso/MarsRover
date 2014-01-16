@@ -14,7 +14,7 @@ public class Terrain {
 		this.rovers = new HashMap<Coordinates, MarsRover>();
 	}
 	
-	public boolean addRover(MarsRover rv){
+	synchronized public boolean addRover(MarsRover rv){
 		boolean outOfBounds = checkOutOfBounds(rv.getPos());
 		boolean collision = checkCollision(rv.getPos());
 		if(!outOfBounds && !collision){
@@ -27,19 +27,6 @@ public class Terrain {
 	
 	public MarsRover getRoverAt(Coordinates coords){
 		return rovers.get(coords);
-	}
-	
-	
-	private boolean checkOutOfBounds(RoverPosition pos){
-		if(!pos.getCoords().isWithinBoundsOf(bounds))
-			return true;
-		return false;
-	}
-	
-	private boolean checkCollision(RoverPosition pos){
-		if(rovers.containsKey(pos.getCoords()))
-			return true;
-		return false;
 	}
 	
 	Coordinates shootLasers(MarsRover rv){
@@ -72,6 +59,18 @@ public class Terrain {
 			rovers.put(rv.getPos().getCoords(), rv);
 			return true;
 		}
+		return false;
+	}
+	
+	private boolean checkOutOfBounds(RoverPosition pos){
+		if(!pos.getCoords().isWithinBoundsOf(bounds))
+			return true;
+		return false;
+	}
+	
+	private boolean checkCollision(RoverPosition pos){
+		if(rovers.containsKey(pos.getCoords()))
+			return true;
 		return false;
 	}
 	

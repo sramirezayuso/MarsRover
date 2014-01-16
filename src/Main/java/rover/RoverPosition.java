@@ -12,12 +12,6 @@ public class RoverPosition {
 		this.dir = dir;
 	}
 	
-	boolean collides(RoverPosition that){
-		if(this.coords.equals(that.coords))
-			return true;
-		return false;
-	}
-	
 	RoverPosition projectMove(){
 		return new RoverPosition(coords.add(dir.getCoords()), dir);
 	}
@@ -29,11 +23,6 @@ public class RoverPosition {
 	public Direction getDir() {
 		return dir;
 	}
-
-	void setDir(Direction dir) {
-		this.dir = dir;
-	}
-	
 	public String toString() {
 		return coords.toString() + " " + dir.toString();
 	}
